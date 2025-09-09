@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { verifyOtp } from "../api/otp";
 
 export default function OtpVerifyForm() {
   const [userId, setUserId] = useState("");
-  const [code, setCode] = useState("");
+  const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
   const [message, setMessage] = useState(null);
+
+  const inputsRef = useRef([]);
 
   const handleVerify = async (e) => {
     e.preventDefault();
     setMessage(null);
+    const code = otpDigits.join("");
     try {
       const res = await verifyOtp(userId, code);
       if (res.success) setMessage("OTP verified successfully!");
@@ -16,6 +19,35 @@ export default function OtpVerifyForm() {
     } catch (err) {
       setMessage("Failed to verify OTP.");
     }
+  };
+
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) return; // only allow digits
+
+    const newOtp = [...otpDigits];
+    newOtp[index] = value.slice(-1);
+    setOtpDigits(newOtp);
+
+    // Move to next input
+    if (value && index < 5) {
+      inputsRef.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otpDigits[index] && index > 0) {
+      inputsRef.current[index - 1].focus();
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const paste = e.clipboardData.getData("text").slice(0, 6);
+    const newOtp = paste.split("");
+    while (newOtp.length < 6) newOtp.push("");
+    setOtpDigits(newOtp);
+    inputsRef.current[Math.min(5, newOtp.length - 1)].focus();
   };
 
   return (
@@ -29,13 +61,24 @@ export default function OtpVerifyForm() {
           onChange={(e) => setUserId(e.target.value)}
           required
         />
-        <input
-          type="text"
-          placeholder="OTP Code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          required
-        />
+
+        <div className="otp-inputs-container">
+          <h3>Enter your OTP</h3>
+          <div className="otp-inputs" onPaste={handlePaste}>
+            {otpDigits.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                maxLength="1"
+                value={digit}
+                onChange={(e) => handleChange(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                ref={(el) => (inputsRef.current[index] = el)}
+                required
+              />
+            ))}
+          </div>
+        </div>
         <button type="submit">Verify OTP</button>
       </form>
       {message && <p>{message}</p>}
