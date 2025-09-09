@@ -2,32 +2,24 @@ using BtOtp.Api.Models;
 
 namespace BtOtp.Api.Services;
 
-public class OtpService : IOtpService
+public class OtpService(SecureOtpGenerator generator, int expirySeconds = 120) : IOtpService
 {
     private readonly Dictionary<string, OtpEntry> _otpStore = new();
-    private readonly SecureOtpGenerator _generator;
-    private readonly int _expirySeconds;
-
-    public OtpService(SecureOtpGenerator generator, int expirySeconds = 120)
-    {
-        _generator = generator;
-        _expirySeconds = expirySeconds;
-    }
 
     public OtpResponseDto IssueOtp(string userId)
     {
         if (string.IsNullOrWhiteSpace(userId))
             throw new ArgumentException("UserId is required.");
 
-        var code = _generator.Generate();
-        var expiry = DateTimeOffset.UtcNow.AddSeconds(_expirySeconds);
+        var code = generator.Generate();
+        var expiry = DateTimeOffset.UtcNow.AddSeconds(expirySeconds);
 
         _otpStore[userId] = new OtpEntry { Code = code, Expiry = expiry };
 
         return new OtpResponseDto
         {
             Code = code,
-            ExpiresIn = _expirySeconds
+            ExpiresIn = expirySeconds
         };
     }
 
