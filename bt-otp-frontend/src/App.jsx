@@ -2,6 +2,7 @@ import "./App.css";
 import OtpRequestForm from "./components/OtpRequestForm";
 import OtpVerifyForm from "./components/OtpVerifyForm";
 import otpImage from "./assets/portal.png";
+import { Toaster, toast } from "react-hot-toast";
 
 function App() {
   return (
@@ -36,8 +37,11 @@ function App() {
           Already received an OTP? Enter your User ID and the code below to 
           verify and complete your secure access.
         </p>
-        <OtpVerifyForm />
+        <OtpVerifyForm/>
       </section>
+
+      {/* Toast container */}
+      <Toaster position="bottom-center" reverseOrder={false} />
     </div>
   );
 }

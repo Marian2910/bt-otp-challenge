@@ -1,23 +1,26 @@
 import { useState, useRef } from "react";
 import { verifyOtp } from "../api/otp";
+import { toast } from "react-hot-toast";
 
 export default function OtpVerifyForm() {
   const [userId, setUserId] = useState("");
   const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
-  const [message, setMessage] = useState(null);
-
   const inputsRef = useRef([]);
 
   const handleVerify = async (e) => {
     e.preventDefault();
-    setMessage(null);
     const code = otpDigits.join("");
     try {
       const res = await verifyOtp(userId, code);
-      if (res.success) setMessage("OTP verified successfully!");
-      else setMessage(res.errorMessage || "Verification failed.");
+      if (res.success) {
+        toast.success("OTP verified successfully!");
+        // clear inputs after success
+        setOtpDigits(["", "", "", "", "", ""]);
+      } else {
+        toast.error(res.errorMessage || "Verification failed.");
+      }
     } catch (err) {
-      setMessage("Failed to verify OTP.");
+      toast.error("Failed to verify OTP.");
     }
   };
 
@@ -81,7 +84,6 @@ export default function OtpVerifyForm() {
         </div>
         <button type="submit">Verify OTP</button>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }

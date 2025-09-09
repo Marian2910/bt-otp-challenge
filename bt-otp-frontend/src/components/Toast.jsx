@@ -1,31 +1,46 @@
 import { useEffect, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function Toast({ message, duration, onClose }) {
-  const [visible, setVisible] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(duration);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setVisible(false);
-      if (onClose) onClose();
-    }, duration * 1000);
+    if (timeLeft <= 0) {
+      handleClose();
+      return;
+    }
 
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
 
-  if (!visible) return null;
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") return;
+
+    setOpen(false);
+    if (onClose) onClose();
+  };
 
   return (
-    <div style={{
-      position: "fixed",
-      top: "20px",
-      right: "20px",
-      backgroundColor: "#333",
-      color: "#fff",
-      padding: "15px",
-      borderRadius: "5px",
-      zIndex: 9999,
-    }}>
-      {message}
-    </div>
+    <Snackbar
+      open={open}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      onClose={handleClose}
+    >
+      <Alert
+        severity="info"
+        onClose={handleClose}
+        sx={{ width: "100%" }}
+      >
+        {message} <br />
+        Expires in {Math.floor(timeLeft / 60)}:
+        {String(timeLeft % 60).padStart(2, "0")} minutes
+      </Alert>
+    </Snackbar>
   );
 }
