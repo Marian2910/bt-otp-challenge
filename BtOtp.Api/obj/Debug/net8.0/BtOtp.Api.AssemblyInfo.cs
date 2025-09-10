@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BtOtp.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d7bbaf4ec9a62285b4522aa2b6ec53bb6e1c629")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f60f29891565782c8ac3d1278272ac9677b4ea84")]
 [assembly: System.Reflection.AssemblyProductAttribute("BtOtp.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BtOtp.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
