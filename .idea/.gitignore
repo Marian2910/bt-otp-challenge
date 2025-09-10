@@ -1,13 +1,63 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Rider ignored files
+# =======================
+# OS-specific files
+# =======================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# =======================
+# IDE / Editor files
+# =======================
+# JetBrains Rider / IntelliJ
+.idea/
+*.iml
 /modules.xml
 /projectSettingsUpdater.xml
 /contentModel.xml
-/.idea.bt-otp-challenge.iml
+
 # Editor-based HTTP Client requests
 /httpRequests/
-# Datasource local storage ignored files
+
+# Datasource local storage
 /dataSources/
 /dataSources.local.xml
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =======================
+# Node / frontend
+# =======================
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =======================
+# Logs
+# =======================
+*.log
+
+# =======================
+# Environment / secret files
+# =======================
+.env
+.env.local
+.env.*.local
+
+# =======================
+# Misc
+# =======================
+*.swp
+/shelf/
+/workspace.xml

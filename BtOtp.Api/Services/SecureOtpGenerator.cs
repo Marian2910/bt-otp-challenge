@@ -16,7 +16,7 @@ public class SecureOtpGenerator
 
         for (var i = 0; i < length; i++)
         {
-            int idx = bytes[i] % digits.Length;
+            var idx = bytes[i] % digits.Length;
             result.Append(digits[idx]);
         }
         return result.ToString();
