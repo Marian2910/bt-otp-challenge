@@ -43,9 +43,6 @@ bt-otp-frontend/
 │   ├── App.jsx                # Main app component
 │   ├── main.jsx               # React entry point
 │   └── index.css / App.css     # Styling
-├── certs/
-│   ├── localhost+1-key.pem    # Private key for local HTTPS
-│   └── localhost+1.pem        # Public certificate for local HTTPS
 ├── package.json
 ├── babel.config.js
 ├── jest.config.js
