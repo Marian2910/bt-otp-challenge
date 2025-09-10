@@ -3,11 +3,12 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { toast } from "react-hot-toast";
+
 
 export default function Toast({ message, duration, onClose }) {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [open, setOpen] = useState(true);
-  const [feedback, setFeedback] = useState(null);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -35,23 +36,20 @@ export default function Toast({ message, duration, onClose }) {
     const otp = otpMatch ? otpMatch[0] : null;
 
     if (!otp) {
-      setFeedback({ severity: "error", text: "No OTP found to copy!" });
+      toast.error("No OTP found to copy!");
       return;
     }
 
     try {
       await navigator.clipboard.writeText(otp);
-      setFeedback({ severity: "success", text: "OTP copied to clipboard!" });
-      console.log("Copied OTP:", otp);
+      toast.success("OTP copied to clipboard!");
     } catch (err) {
-      setFeedback({ severity: "error", text: "Failed to copy OTP." });
-      console.error("Failed to copy OTP:", err);
+      toast.error("Failed to copy OTP.");
     }
   };
 
   return (
     <>
-      {/* Main OTP toast */}
       <Snackbar
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -76,24 +74,6 @@ export default function Toast({ message, duration, onClose }) {
           Expires in {Math.floor(timeLeft / 60)}:
           {String(timeLeft % 60).padStart(2, "0")} minutes
         </Alert>
-      </Snackbar>
-
-      {/* Feedback toast */}
-      <Snackbar
-        open={!!feedback}
-        autoHideDuration={2000}
-        onClose={handleFeedbackClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        {feedback && (
-          <Alert
-            onClose={handleFeedbackClose}
-            severity={feedback.severity}
-            sx={{ width: "100%" }}
-          >
-            {feedback.text}
-          </Alert>
-        )}
       </Snackbar>
     </>
   );
