@@ -86,6 +86,30 @@ The tests cover the following areas:
 * Supports custom-length OTP generation.
 * Produces unique OTPs for successive calls.
 
+#### 4. `ErrorHandlingMiddlewareTests.cs`
+
+* **Successful request**
+
+  * Passes through the middleware without exceptions.
+  * Returns 200 OK and response body when no errors occur.
+  * Verifies that no logs are written.
+
+* **Generic exceptions**
+
+   * Returns 500 Internal Server Error.
+   * Response body includes the exception message.
+   * Logs the error with LogLevel.Error.
+
+* **Argument exceptions**
+
+  * Returns 400 Bad Request.
+  * Response body contains the exception message.
+  
+* **KeyNotFound exceptions**
+  
+   * Returns 404 Not Found.
+   * Response body contains the exception message.
+
 ---
 
 ## Notes
