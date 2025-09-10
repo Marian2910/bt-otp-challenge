@@ -80,11 +80,6 @@ Visit [https://localhost:5173](https://localhost:5173) to view the app in your b
 
 #### Vite HTTPS Setup
 
-The app runs over **HTTPS** using self-signed certificates located in `certs/`:
-
-* `localhost+1-key.pem` → Private key
-* `localhost+1.pem` → Public certificate
-
 The Vite config (`vite.config.js`) includes a **proxy** to the backend:
 
 ```js
@@ -95,10 +90,7 @@ import fs from 'fs'
 export default defineConfig({
   plugins: [react()],
   server: {
-    https: {
-      key: fs.readFileSync('./certs/localhost+1-key.pem'),
-      cert: fs.readFileSync('./certs/localhost+1.pem'),
-    },
+    https: false,
     proxy: {
       '/api': {
         target: 'https://localhost:7124', // backend URL
