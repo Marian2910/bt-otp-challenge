@@ -4,7 +4,7 @@
 
 This project implements the backend API for the BT Code Crafter OTP challenge. It provides a secure, time-bound, and efficient system for generating and verifying one-time passwords (OTPs) for a banking application.
 
-The backend is built using **.NET 7**, follows REST principles, and is designed to interact with a frontend built in React.
+The backend is built using **.NET 8**, follows REST principles, and is designed to interact with a frontend built in React.
 
 ---
 
